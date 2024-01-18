@@ -1,0 +1,18 @@
+spring:
+    datasource:
+        url: jdbc:h2:mem:g2backend;DB_CLOSE_ON_EXIT=FALSE;AUTO_RECONNECT=TRUE
+        username: sa
+        password:
+        driver-class-name: org.h2.Driver
+        generate-unique-name: false
+    h2:
+        console:
+            enabled: true
+    jpa:
+        hibernate:
+            ddl-auto: validate
+    sql:
+        init:
+            mode: always
+            schema-locations: classpath:sql_imports/00_SCHEMA.sql
+            data-locations: classpath:sql_imports/01_DATA.sql

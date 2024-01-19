@@ -23,29 +23,29 @@ public class SolicitudController {
     @Autowired
     private TransporteService transporteService;
 
-    @PostMapping
-    public ResponseEntity<ResponsePostSolicitud> postSolicitud(@RequestBody RequestPostSolicitud request) {
-        String codigoSeguimiento = solicitudService.post(request);
-        ResponsePostSolicitud response = ResponsePostSolicitud.builder().codigoSeguimiento(codigoSeguimiento).build();
-        return ResponseEntity.status(HttpStatus.CREATED).body(response);
-    }
-
-    @GetMapping("/api/v1/{codigoSeguimiento}")
-    public ResponseEntity<ResponseGetSolicitud> getSolicitud(@PathVariable String codigoSeguimiento){
-        Solicitud solicitud = solicitudService.get(codigoSeguimiento);
-        return ResponseEntity.ok(ResponseGetSolicitud.builder().solicitud(solicitud).build());
-    }
-
     @GetMapping
     public ResponseEntity<List<Solicitud>> getSolicitudes(){
         List<Solicitud> solicitud = solicitudService.getAll();
         return ResponseEntity.ok(solicitud);
     }
 
+    @GetMapping("/{codigoSeguimiento}")
+    public ResponseEntity<ResponseGetSolicitud> getSolicitud(@PathVariable String codigoSeguimiento){
+        Solicitud solicitud = solicitudService.get(codigoSeguimiento);
+        return ResponseEntity.ok(ResponseGetSolicitud.builder().solicitud(solicitud).build());
+    }
+
     @GetMapping("/{codigoSeguimiento}/estado")
     public ResponseEntity<ResponseGetEstado> getEstado(@PathVariable String codigoSeguimiento){
         String estado = solicitudService.getEstado(codigoSeguimiento);
         return ResponseEntity.ok(ResponseGetEstado.builder().estado(estado).build());
+    }
+
+    @PostMapping
+    public ResponseEntity<ResponsePostSolicitud> postSolicitud(@RequestBody RequestPostSolicitud request) {
+        String codigoSeguimiento = solicitudService.post(request);
+        ResponsePostSolicitud response = ResponsePostSolicitud.builder().codigoSeguimiento(codigoSeguimiento).build();
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @PatchMapping("/{codigoSeguimiento}")
